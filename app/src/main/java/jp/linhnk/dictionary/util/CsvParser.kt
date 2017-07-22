@@ -2,7 +2,6 @@ package jp.linhnk.dictionary.util
 
 import android.content.Context
 import android.util.Log
-import com.vicpin.krealmextensions.save
 
 import java.io.BufferedReader
 import java.io.IOException
@@ -10,7 +9,6 @@ import java.io.InputStreamReader
 
 import jp.linhnk.dictionary.datamodel.Word
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Read data from CSV file
@@ -46,8 +44,8 @@ class CsvParser {
                                     + " hiragana = " + hiragana
                                     + " meaning = " + meaning)
 
-                    var word = Word(index, phrase, category.toInt(), hiragana, meaning)
-                    listWord!!.add(word)
+                    val word = Word(index, phrase, category.toInt(), hiragana, meaning)
+                    listWord.add(word)
 
                     line = bufferedReader.readLine()
                     index++
