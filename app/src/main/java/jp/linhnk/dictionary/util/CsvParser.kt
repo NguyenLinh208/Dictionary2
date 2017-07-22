@@ -1,18 +1,16 @@
 package jp.linhnk.dictionary.util
 
 import android.content.Context
-import android.content.res.AssetManager
-import io.realm.Realm
-import io.realm.RealmObject
+import android.util.Log
+import com.vicpin.krealmextensions.save
 
 import java.io.BufferedReader
 import java.io.IOException
-import java.io.InputStream
 import java.io.InputStreamReader
-import java.util.ArrayList
-import java.util.StringTokenizer
 
 import jp.linhnk.dictionary.datamodel.Word
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Read data from CSV file
@@ -22,10 +20,10 @@ class CsvParser {
 
     companion object {
 
-        fun parser(context: Context, realm: Realm): List<Word> {
+        fun parser(context: Context) : MutableList<Word> {
             val assetManager = context.resources.assets
-            val wordList = ArrayList<Word>()
-            var index: Long = 0
+            var index: Int = 0
+            var listWord : MutableList<Word> = mutableListOf()
             try {
                 // init stream reader
                 val inputStream = assetManager.open("data.csv")
@@ -35,19 +33,22 @@ class CsvParser {
                 var line = bufferedReader.readLine()
 
                 while (line != null) {
-                    var stringTokenizer = StringTokenizer(line, ",")
-                    var category = stringTokenizer.nextToken()
-                    var phrase = if (stringTokenizer.hasMoreTokens()) stringTokenizer.nextToken() else ""
-                    var hiragana = if (stringTokenizer.hasMoreTokens()) stringTokenizer.nextToken() else ""
-                    var meaning = if (stringTokenizer.hasMoreTokens()) stringTokenizer.nextToken() else ""
+                    val stringTokenizer = StringTokenizer(line, ",")
+                    val category = stringTokenizer.nextToken()
+                    val phrase = if (stringTokenizer.hasMoreTokens()) stringTokenizer.nextToken() else ""
+                    val hiragana = if (stringTokenizer.hasMoreTokens()) stringTokenizer.nextToken() else ""
+                    val meaning = if (stringTokenizer.hasMoreTokens()) stringTokenizer.nextToken() else ""
 
-                    var word = Word()
-                    word.id = index
-                    word.category = category.toInt()
-                    word.phrase = phrase
-                    word.hiragana = hiragana
-                    word.meaning = meaning
-                    wordList.add(word)
+                    Log.i("word:",
+                            "id = " + index
+                                    + " category = " + category
+                                    + " phrase = " + phrase
+                                    + " hiragana = " + hiragana
+                                    + " meaning = " + meaning)
+
+                    var word = Word(index, phrase, category.toInt(), hiragana, meaning)
+                    listWord!!.add(word)
+
                     line = bufferedReader.readLine()
                     index++
                 }
@@ -56,8 +57,7 @@ class CsvParser {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-
-            return wordList
+            return listWord
         }
     }
 }
