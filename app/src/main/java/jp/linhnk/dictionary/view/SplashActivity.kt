@@ -1,4 +1,4 @@
-package jp.linhnk.dictionary
+package jp.linhnk.dictionary.view
 
 import android.content.Intent
 import android.os.Bundle

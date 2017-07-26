@@ -2,7 +2,7 @@ package jp.linhnk.dictionary.di.component
 
 
 import dagger.Subcomponent
-import jp.linhnk.dictionary.MainActivity
+import jp.linhnk.dictionary.view.MainActivity
 import jp.linhnk.dictionary.di.module.ActivityModule
 
 /**
